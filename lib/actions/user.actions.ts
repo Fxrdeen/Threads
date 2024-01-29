@@ -48,3 +48,26 @@ export async function updateUser({
     throw new Error(`Failed to create/update user: ${error.message}`);
   }
 }
+
+export async function fetchUser(userId: string) {
+  let isConnected = false;
+  try {
+    mongoose.set("strictQuery", true);
+    if (!process.env.MONGODB_URL) return console.log("MongoDB URL not found");
+    if (isConnected) return console.log("Already connected to MongoDB");
+    try {
+      await mongoose.connect(
+        "mongodb+srv://fardeenclan:Havind9123s%40@cluster0.ptdpr6j.mongodb.net/?retryWrites=true&w=majority"
+      );
+      isConnected = true;
+      console.log("Connected to DB");
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+
+    return await User.findOne({ id: userId });
+    //   .populate({path:'communities',})
+  } catch (error) {
+    throw new Error("failed to fetch user message:");
+  }
+}
