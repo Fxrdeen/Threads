@@ -1,3 +1,4 @@
+import ThreadCard from "@/components/cards/ThreadCard";
 import { fetchPosts } from "@/lib/actions/thread.actions";
 import { currentUser } from "@clerk/nextjs";
 export default async function Home() {
@@ -11,11 +12,11 @@ export default async function Home() {
           <p>No Threads Found</p>
         ) : (
           <>
-            {result.posts.map((post) => (
+            {result.posts.map((post: any) => (
               <ThreadCard
                 key={post._id}
                 id={post._id}
-                currentUserId={user.id}
+                currentUserId={user?.id | ""}
                 parentId={post.parentId}
                 content={post.text}
                 author={post.author}
